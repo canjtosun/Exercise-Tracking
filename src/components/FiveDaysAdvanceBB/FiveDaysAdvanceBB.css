@@ -1,0 +1,15 @@
+.button-next {
+    display: inline-block;
+    margin: 5px;
+    height: 300px;
+    width: 200px;
+    border: 2px solid green;
+  }
+  
+  .day-button {
+    cursor: pointer;
+    position: relative;
+    left: 63px;
+    top: 65px;
+    background-color: #bd6b73;
+  }

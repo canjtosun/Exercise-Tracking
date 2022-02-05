@@ -4,17 +4,19 @@ import ModalBody from "react-bootstrap/ModalBody";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalTitle from "react-bootstrap/ModalTitle";
 
-const AddWorkout = (props) => {
-  const [name, setName] = useState("");
-  const [sets, setSets] = useState(0);
-  const [reps, setReps] = useState(0);
+const SignUp = (props) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
 
-  const addWorkout = (event) => {
+    //send user to header as object
+  const addUser = (event, newUser) => {
     event.preventDefault();
-    const objWorkout = { name: name, sets: sets, reps: reps };
-    props.sendToAddWorkout(objWorkout);
+    const newUserObject = {firstName: firstName, lastName:lastName, dateOfBirth:dateOfBirth}
+    props.onAddUser(newUserObject);
     props.onCLoseFormAndButtons();
-  };
+    
+  }
 
   return (
     <div>
@@ -23,40 +25,41 @@ const AddWorkout = (props) => {
         onHide={props.onCLoseFormAndButtons}
       >
         <ModalHeader>
-          <ModalTitle>Add New Workout</ModalTitle>
+          <ModalTitle>Please fill the form</ModalTitle>
         </ModalHeader>
+
         <ModalBody>
-          <form onSubmit={addWorkout}>
+          <form onSubmit={addUser}>
             <div className="form-group">
-              <label>Workout Name</label>
+              <label>First Name</label>
               <input
                 type="text"
                 required
-                value={name}
-                onChange={(x) => setName(x.target.value)}
+                value={firstName}
+                onChange={(x) => setFirstName(x.target.value)}
               />
             </div>
             <div className="form-group">
-              <label>Sets</label>
+              <label>Last Name</label>
               <input
-                type="number"
+                type="text"
                 required
-                value={sets}
-                onChange={(x) => setSets(x.target.value)}
+                value={lastName}
+                onChange={(x) => setLastName(x.target.value)}
               />
             </div>
             <div className="form-group">
-              <label>Reps</label>
+              <label>Date of Birth</label>
               <input
-                type="number"
+                type="date"
                 required
-                value={reps}
-                onChange={(x) => setReps(x.target.value)}
+                value={dateOfBirth}
+                onChange={(x) => setDateOfBirth(x.target.value)}
               />
             </div>
             <div className="button-div">
               <button type="submit" className="btn btn-outline-success">
-                Add
+                Sign Up
               </button>
               <button
                 type="button"
@@ -73,4 +76,4 @@ const AddWorkout = (props) => {
   );
 };
 
-export default AddWorkout;
+export default SignUp;

@@ -1,71 +1,73 @@
-import { useState } from "react";
-import Table from "./Table";
+import { useEffect, useState } from "react";
+import Header from "./components/Header/Header";
+import UpperLower from "./components/UpperLower/UpperLower";
 import axios from "axios";
-import Header from "./Header";
-
+import FiveDaysAdvanceBB from "./components/FiveDaysAdvanceBB/FiveDaysAdvanceBB";
 
 function App() {
-  const [fullbody, setFullbody] = useState([]);
-  const [day, setDay] = useState(0);
-  const [isShowing, setIsShowing] = useState(false);
-  const [something, setSomething] = useState([]);
+  const [allExercises, setAllExercises] = useState([]);
+  const [isUpperLowerShowing, setIsUpperLowerShowing] = useState(false);
+  const [isFiveDaysAdvanceBBShowing, setIsFiveDaysAdvanceBBShowing] =
+    useState(false);
 
-  const openTable = () => setIsShowing(true);
-  const closeTable = () => setIsShowing(false);
+  const showUpperLowerOnly = (name) => {
+    if (name.startsWith("U")) {
+      setIsUpperLowerShowing(true);
+      setIsFiveDaysAdvanceBBShowing(false);
+    }
+  };
 
-  //get data with axios
+  const showFiveDaysOnly = (name) => {
+    if (name.startsWith("5")) {
+      setIsUpperLowerShowing(false);
+      setIsFiveDaysAdvanceBBShowing(true);
+    }
+  };
+
+  const closeAll = () => {
+    setIsUpperLowerShowing(false);
+    setIsFiveDaysAdvanceBBShowing(false);
+  };
+
   const getData = async () => {
     await axios
-      .get("http://localhost:4200/exercises/")
+      .get("http://localhost:4200/allexercises")
       .then((response) => {
-        setFullbody(response.data);
+        setAllExercises(response.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  getData();
-
-  const dayFilter = (day) => {
-    const filteredList = [];
-    for (let x of fullbody.filter((x) => x.day === day)) {
-      filteredList.push(...x.typesOfExercises);
-    }
-    openTable();
-    setSomething(filteredList);
-    setDay(day);
-  };
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
-    <div className="App ">
-      <Header/>
-      {!isShowing && <h3>Select Day</h3>}
-      <div className="card">
-        {!isShowing &&
-          fullbody.map((y) => {
-            return (
-              <div className="button-next" key={y.day}>
-                <img
-                  className="card-img-top"
-                  src="https://darebee.com/images/workouts/muscles/upperbody-workout.jpg"
-                  alt="Upper Body Pic"
-                />
-                {!isShowing && (
-                  <button
-                    className="day-button"
-                    onClick={() => dayFilter(y.day)}
-                  >
-                    DAY {y.day}
-                  </button>
-                )}
-              </div>
-            );
-          })}
+    <div>
+      <Header />
+      <div>
+        {allExercises.map((x) => {
+          return (
+            <div key={x._id}>
+              <button
+                className="btn btn-outline-success"
+                onClick={() => {
+                  showUpperLowerOnly(x.name);
+                  showFiveDaysOnly(x.name);
+                }}
+              >
+                Open {x.name}
+              </button>
+            </div>
+          );
+        })}
       </div>
-      {isShowing && (
-        <Table onInfo={something} day={day} onCloseTable={closeTable} />
-      )}
+
+      {isUpperLowerShowing && <UpperLower />}
+      {isFiveDaysAdvanceBBShowing && <FiveDaysAdvanceBB />}
+      {(isFiveDaysAdvanceBBShowing || isUpperLowerShowing) && <button type="button" className="btn btn-danger" onClick={closeAll}>Close All</button>}
     </div>
   );
 }

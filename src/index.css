@@ -28,53 +28,9 @@ th {
   cursor: pointer;
 }
 
-.button-next {
-  display: inline-block;
-  margin: 5px;
-  height: 300px;
-  width: 200px;
-  border: 2px solid green;
-}
-
-.day-button {
-  cursor: pointer;
-  position: relative;
-  left: 63px;
-  top: 65px;
-  background-color: #bd6b73;
-}
-
-.card {
-  display: inline-block;
-}
-
-form {
-  width: 70%;
-  text-align: right;
-}
-
-form label {
-  float: left;
-  font-weight: bold;
-}
-
-.new-workout-title {
-  margin-top: 30px;
-  color: red;
-  font-weight: bold;
-  font-size: 30px;
-}
 
 tbody > tr > :nth-child(4) {
   color: red;
   text-align: center;
 }
 
-h1 {
-  color: orange;
-}
-
-.completed-style {
-  display: inline;
-  padding: 5px;
-}

@@ -1,0 +1,9 @@
+form {
+    width: 70%;
+    text-align: right;
+  }
+  
+  form label {
+    float: left;
+    font-weight: bold;
+  }
